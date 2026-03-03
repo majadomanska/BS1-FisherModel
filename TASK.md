@@ -1,4 +1,4 @@
-# Assignment: Extending Fisher's Geometric Model
+# Assignment: Fisher's Geometric Model (deadline: 30.03.2026, 19:00 CEST)
 
 ## Background
 
@@ -40,8 +40,6 @@ survivors. The offspring inherits each trait independently from one of the
 two parents with equal probability (uniform crossover). The rest of the loop
 (mutation, selection, environment) stays identical to the baseline.
 
-**Expected implementation size:** ~35–45 lines.
-
 **Competing biological mechanisms to consider:**
 - *For* sexual reproduction: recombination can assemble beneficial mutations
   faster than cloning (Fisher–Muller hypothesis) and restores phenotypic
@@ -64,8 +62,6 @@ The optimum drifts linearly as in the baseline (`c` per generation), but
 every `T_shock` generations it additionally jumps by a random displacement
 drawn from N(0, σ_shock² I). Add `T_shock` and `sigma_shock` as parameters
 in `config.py`.
-
-**Expected implementation size:** ~25–35 lines.
 
 **Key biological question:** Sustained directional selection reduces
 phenotypic variance — the population "specialises" in one direction. Does
@@ -90,8 +86,6 @@ estimated optimum drift direction. Estimate **v̂** from the last *k* entries
 of `alpha_history` (available via the `SimulationStats` object you pass in,
 or by estimating from the config parameter `c` directly). The magnitude *b*
 is a new parameter you tune.
-
-**Expected implementation size:** ~35–50 lines.
 
 **Competing biological mechanisms to consider:**
 - *For* directional bias: fewer wasted mutations in unhelpful directions;
@@ -232,3 +226,4 @@ Write a short report (recommended: **4 pages including figures**):
 - For the parameter sweep, 20 replicates × 2 conditions × 2 parameter
   values = 80 runs of 200 generations each; this takes a few minutes on a
   laptop. Add `verbose=False` to suppress per-generation output.
+
