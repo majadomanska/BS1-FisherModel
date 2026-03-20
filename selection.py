@@ -28,6 +28,7 @@ def compute_fitnesses(individuals: list, alpha: np.ndarray, sigma: float) -> np.
                      for ind in individuals])
 
 
+
 # ---------------------------------------------------------------------------
 # Strategie selekcji
 # ---------------------------------------------------------------------------

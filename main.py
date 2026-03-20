@@ -24,6 +24,9 @@ from reproduction import AsexualReproduction
 from visualization import plot_population, plot_frame, plot_stats
 from stats import SimulationStats
 
+#nowe======================================================================================
+from flood import  ShockEnvironment
+
 
 # ---------------------------------------------------------------------------
 # Główna pętla symulacji
@@ -65,7 +68,6 @@ def run_simulation(
 
     for generation in range(max_generations):
         alpha = environment.get_optimal_phenotype()
-
         # Krok 1: Mutacja
         mutation_strategy.mutate(population)
 
@@ -94,13 +96,16 @@ def run_simulation(
 
         # Krok 4: Zmiana środowiska
         environment.update()
+        #NOWE=======================================================================
 
         if verbose and generation % 10 == 0:
             r = stats.records[-1]
             print(f"  Pokolenie {generation:4d} | "
                   f"śr. fitness: {r.mean_fitness:.3f} | "
                   f"dist. od optimum: {r.distance_from_optimum:.3f} | "
-                  f"var. fenotyp.: {r.phenotype_variance:.3f}")
+                  f"var. fenotyp.: {r.phenotype_variance:.3f}  |"
+                  f"alpha: {alpha}"
+                )
 
     return stats
 
@@ -135,11 +140,22 @@ def main():
         np.random.seed(config.seed)
 
     # --- Inicjalizacja komponentów ---
-    env = LinearShiftEnvironment(
+    #nowe================================================================================
+
+    env = ShockEnvironment(
         alpha_init=config.alpha0,
         c=config.c,
         delta=config.delta,
+        T_shock=config.T_shock,
+        sigma_shock=config.sigma_shock
     )
+
+    # env = LinearShiftEnvironment(
+    #     alpha_init=config.alpha0,
+    #     c=config.c,
+    #     delta=config.delta
+    # )
+
     pop = Population(
         size=config.N,
         n_dim=config.n,
@@ -149,7 +165,7 @@ def main():
     selection = TwoStageSelection(
         sigma=config.sigma,
         threshold=config.threshold,
-        N=config.N,
+        N=config.N
     )
     reproduction = AsexualReproduction()
     mutation = IsotropicMutation(

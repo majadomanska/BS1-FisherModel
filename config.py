@@ -2,6 +2,11 @@
 
 import numpy as np
 
+
+#nowe=============================================================================
+T_shock = 50 #co tyle generacji skok optimum
+sigma_shock = 0.1 #odchylenie standardowe skoku
+
 # -------------------
 # PARAMETRY POPULACJI
 # -------------------
