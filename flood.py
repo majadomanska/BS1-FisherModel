@@ -26,7 +26,7 @@ class ShockEnvironment(EnvironmentDynamics):
         self.t = 0
 
     # ------------------------------------------------------------
-    # 1. update environment state
+    # 1. update environment
     # ------------------------------------------------------------
     def update(self) -> None:
 
@@ -36,18 +36,31 @@ class ShockEnvironment(EnvironmentDynamics):
             scale=self.delta,
             size=self.alpha.shape
         )
+        
+        #optimial location: (x,y) = (0.0, 0.0)
+        noise[-2:] = 0.0
+        c = self.c.copy()
+        c[-2:] = 0.0
 
-        #alpa = fluctuations
+        #alpa = fluctuations (applies to location as well)
         self.alpha = self.alpha + self.c + noise
 
-        #flood - adding a displacement
+        #flood - adding a displacement (but not to the location!)
         if self.T_shock > 0 and self.t % self.T_shock == 0 and self.t > 0:
             
-            #second arg is std (numpy), so the variance is smaller (=sigma**4)
-            displacement = np.random.normal(0,self.sigma_shock**2, size=self.alpha.shape)
-
+            #second arg is std (numpy), so the variance is = sigma**2
+            displacement = np.random.normal(0,
+                                            self.sigma_shock,
+                                            size=self.alpha.shape
+                                              )
+            #not displacing location
+            displacement[-2:] = 0.0
             self.alpha += displacement
+            
 
+        self.alpha[-1] = 0.0
+        self.alpha[-2] = 0.0
+        
         self.t += 1
 
     # ------------------------------------------------------------
