@@ -13,6 +13,10 @@ pre_adaptation_generations = 60   # ile pokoleń trwa preadaptacja bez powodzi
 flood_generations = 400            # ile pokoleń trwa eksperyment z powodziami
 T_shock = 30                       # co ile pokoleń występuje powódź
 sigma_shock = 0.1                 # siła powodzi
+# przy tym wyszlo (20 seed):
+# condition    mean_fitness    mean_dist  mean_variance  survival_rate  n_survived  
+# naive            0.155167    0.416688   0.001654          0.65           13    
+# pre_adapted      0.053968    0.505670   0.001535          0.30           6  
 
 
 
