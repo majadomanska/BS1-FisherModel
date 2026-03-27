@@ -2,7 +2,6 @@
 
 import numpy as np
 
-
 #nowe=============================================================================
 #T_shock = 40 #co tyle generacji skok optimum
 #sigma_shock = 0.03 #odchylenie standardowe skoku
@@ -18,8 +17,15 @@ sigma_shock = 0.1                 # siła powodzi
 # naive            0.155167    0.416688   0.001654          0.65           13    
 # pre_adapted      0.053968    0.505670   0.001535          0.30           6  
 
-
-
+#po odpaleniu collect data wyszlo:
+#--- no_noise ---
+#baseline           | fitness: 0.027 | dist: 0.547 | var: 0.0013 | survival: 1.00
+#naive_flood        | fitness: 0.151 | dist: 0.422 | var: 0.0015 | survival: 0.75
+#pre_adapted_flood  | fitness: 0.137 | dist: 0.444 | var: 0.0018 | survival: 0.65
+#--- with_noise ---
+#baseline           | fitness: 0.015 | dist: 0.585 | var: 0.0008 | survival: 0.10
+#naive_flood        | fitness: 0.154 | dist: 0.437 | var: 0.0012 | survival: 0.55
+#pre_adapted_flood  | fitness: 0.080 | dist: 0.500 | var: 0.0013 | survival: 0.30
 
 
 

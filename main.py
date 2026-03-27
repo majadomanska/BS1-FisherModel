@@ -141,20 +141,21 @@ def main():
 
     # --- Inicjalizacja komponentów ---
     #nowe================================================================================
+    # zakomentowalam bo chyba main.py ma odpalac baseline
 
-    env = ShockEnvironment(
-        alpha_init=config.alpha0,
-        c=config.c,
-        delta=config.delta,
-        T_shock=config.T_shock,
-        sigma_shock=config.sigma_shock
-    )
-
-    # env = LinearShiftEnvironment(
+    # env = ShockEnvironment(
     #     alpha_init=config.alpha0,
     #     c=config.c,
-    #     delta=config.delta
+    #     delta=config.delta,
+    #     T_shock=config.T_shock,
+    #     sigma_shock=config.sigma_shock
     # )
+
+    env = LinearShiftEnvironment(
+        alpha_init=config.alpha0,
+        c=config.c,
+        delta=config.delta
+    )
 
     pop = Population(
         size=config.N,
