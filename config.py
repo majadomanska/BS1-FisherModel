@@ -4,8 +4,15 @@ import numpy as np
 
 
 #nowe=============================================================================
-T_shock = 40 #co tyle generacji skok optimum
-sigma_shock = 0.03 #odchylenie standardowe skoku
+#T_shock = 40 #co tyle generacji skok optimum
+#sigma_shock = 0.03 #odchylenie standardowe skoku
+# --------------------
+# FLOOD EXPERIMENT
+# --------------------
+pre_adaptation_generations = 60   # ile pokoleń trwa preadaptacja bez powodzi
+flood_generations = 400            # ile pokoleń trwa eksperyment z powodziami
+T_shock = 30                       # co ile pokoleń występuje powódź
+sigma_shock = 0.1                 # siła powodzi
 
 
 
