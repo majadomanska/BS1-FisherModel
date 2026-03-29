@@ -41,6 +41,14 @@ def make_reproduction():
     return AsexualReproduction()
 
 
+
+'''
+for both scenarios (naive and pre-adapted), stats are returned
+'''
+
+#=================================================================
+#naive - no adaptation under linear shift environment
+#=================================================================
 def run_naive(seed):
     np.random.seed(seed)
 
@@ -67,12 +75,18 @@ def run_naive(seed):
     return stats
 
 
+
+#=================================================================
+#pre-adapted
+#=================================================================
+
+
 def run_pre_adapted(seed):
     np.random.seed(seed)
 
     pop = make_population()
 
-    # 1 preadaptacja bez powodzi
+    #preadaptation under linear shift environment (no floods)
     env_pre = LinearShiftEnvironment(
         alpha_init=config.alpha0.copy(),
         c=config.c.copy(),
@@ -90,10 +104,10 @@ def run_pre_adapted(seed):
         verbose=False,
     )
 
-    # aktualne optimum po preadaptacji
+    #new optimum after pre-adatation
     alpha_after_pre = env_pre.get_optimal_phenotype().copy()
 
-    # 2 wejście do środowiska z powodziami
+    #change of environment - introduction of floods
     env_flood = ShockEnvironment(
         alpha_init=alpha_after_pre,
         c=config.c.copy(),
@@ -132,6 +146,7 @@ def main():
             "extinct_at",
         ])
 
+        #running for 20 independent replicates
         for seed in range(20):
             stats_naive = run_naive(seed)
             stats_pre = run_pre_adapted(seed)

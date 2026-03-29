@@ -14,7 +14,6 @@ Dostępne klasy bazowe do rozszerzeń: strategies.py
 
 import os
 import numpy as np
-
 import config
 from environment import LinearShiftEnvironment
 from population import Population
@@ -23,9 +22,6 @@ from selection import TwoStageSelection
 from reproduction import AsexualReproduction
 from visualization import plot_population, plot_frame, plot_stats
 from stats import SimulationStats
-
-#nowe======================================================================================
-from flood import  ShockEnvironment
 
 
 # ---------------------------------------------------------------------------
@@ -96,7 +92,6 @@ def run_simulation(
 
         # Krok 4: Zmiana środowiska
         environment.update()
-        #NOWE=======================================================================
 
         if verbose and generation % 10 == 0:
             r = stats.records[-1]
@@ -139,18 +134,8 @@ def main():
     if config.seed is not None:
         np.random.seed(config.seed)
 
-    # --- Inicjalizacja komponentów ---
-    #nowe================================================================================
-    # zakomentowalam bo chyba main.py ma odpalac baseline
-
-    # env = ShockEnvironment(
-    #     alpha_init=config.alpha0,
-    #     c=config.c,
-    #     delta=config.delta,
-    #     T_shock=config.T_shock,
-    #     sigma_shock=config.sigma_shock
-    # )
-
+    # --- Inicjalizacja komponentów - baseline
+   
     env = LinearShiftEnvironment(
         alpha_init=config.alpha0,
         c=config.c,

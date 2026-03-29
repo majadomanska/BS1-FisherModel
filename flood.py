@@ -37,13 +37,16 @@ class ShockEnvironment(EnvironmentDynamics):
             size=self.alpha.shape
         )
         
-        #optimial location: (x,y) = (0.0, 0.0)
+        #optimial location: (x,y) = (0.0, 0.0) doesn't change
         noise[-2:] = 0.0
         c = self.c.copy()
         c[-2:] = 0.0
 
+
+
+
         #alpa = fluctuations (applies to location as well)
-        self.alpha = self.alpha + self.c + noise
+        self.alpha = self.alpha + c + noise
 
         #flood - adding a displacement (but not to the location!)
         if self.T_shock > 0 and self.t % self.T_shock == 0 and self.t > 0:
@@ -56,6 +59,15 @@ class ShockEnvironment(EnvironmentDynamics):
             #not displacing location
             displacement[-2:] = 0.0
             self.alpha += displacement
+
+            #changing the optimum of ability to swim to 100
+            self.alpha[1] = 100.0
+        else:
+             
+            #ability to swim set to mean of most extreme values
+             self.alpha[1] = 0.0
+
+
             
 
         self.alpha[-1] = 0.0
