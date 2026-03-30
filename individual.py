@@ -15,3 +15,4 @@ class Individual:
 
     def set_phenotype(self, new_phenotype):
         self.phenotype = new_phenotype
+

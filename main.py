@@ -14,7 +14,6 @@ Dostępne klasy bazowe do rozszerzeń: strategies.py
 
 import os
 import numpy as np
-
 import config
 from environment import LinearShiftEnvironment
 from population import Population
@@ -65,7 +64,6 @@ def run_simulation(
 
     for generation in range(max_generations):
         alpha = environment.get_optimal_phenotype()
-
         # Krok 1: Mutacja
         mutation_strategy.mutate(population)
 
@@ -100,7 +98,9 @@ def run_simulation(
             print(f"  Pokolenie {generation:4d} | "
                   f"śr. fitness: {r.mean_fitness:.3f} | "
                   f"dist. od optimum: {r.distance_from_optimum:.3f} | "
-                  f"var. fenotyp.: {r.phenotype_variance:.3f}")
+                  f"var. fenotyp.: {r.phenotype_variance:.3f}  |"
+                  f"alpha: {alpha}"
+                )
 
     return stats
 
@@ -134,12 +134,14 @@ def main():
     if config.seed is not None:
         np.random.seed(config.seed)
 
-    # --- Inicjalizacja komponentów ---
+    # --- Inicjalizacja komponentów - baseline
+   
     env = LinearShiftEnvironment(
         alpha_init=config.alpha0,
         c=config.c,
-        delta=config.delta,
+        delta=config.delta
     )
+
     pop = Population(
         size=config.N,
         n_dim=config.n,
@@ -149,7 +151,7 @@ def main():
     selection = TwoStageSelection(
         sigma=config.sigma,
         threshold=config.threshold,
-        N=config.N,
+        N=config.N
     )
     reproduction = AsexualReproduction()
     mutation = IsotropicMutation(
