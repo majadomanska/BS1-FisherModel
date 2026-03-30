@@ -1,7 +1,7 @@
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
-
+import pandas as pd
 from scipy.stats import fisher_exact
 
 
@@ -192,6 +192,9 @@ def main():
     target_gen = 100
     fig, ax = plt.subplots(figsize=(8, 5))
 
+    #dictionary used for bar plot (pandas)
+    data_par_sens = {}
+
     for condition in conditions:
         means = []
         for variant_name in variants:
@@ -200,7 +203,12 @@ def main():
                 means.append(np.nanmean(arr[:, target_gen]))
             else:
                 means.append(np.nan)
-        ax.plot(variants, means, marker="o", label=condition)
+
+        data_par_sens[condition] = means
+
+    df_par_sens = pd.DataFrame(data_par_sens, index = variants)
+
+    df_par_sens.plot(kind="bar", ax=ax, rot=0)
 
     ax.set_title(f"Mean fitness at generation {target_gen}")
     ax.set_ylabel("Mean fitness")
@@ -211,7 +219,7 @@ def main():
     plt.close(fig)
 
 
-    # Fisher exact tests
+    # Fisher exact tests==================================
 
     for variant_name in variants:
         variant = results[variant_name]

@@ -1,21 +1,19 @@
-# config.py
-
 import numpy as np
 
 # --------------------
 # FLOOD EXPERIMENT
 # --------------------
-pre_adaptation_generations = 60   # ile pokoleń trwa preadaptacja bez powodzi
-flood_generations = 400            # ile pokoleń trwa eksperyment z powodziami
-T_shock = 40                       # co ile pokoleń występuje powódź
-sigma_shock = 0.03              # odchylenie standardowe skoku
+pre_adaptation_generations = 60    #amount of generations that pre-adapt in the linear shift environment
+flood_generations = 400            #amount of generations that live in the flood environment
+T_shock = 40                       #floods occur every T_shock generations
+sigma_shock = 0.03                 #std of optimum jump during flood
 
 
 # -------------------
 # PARAMETRY POPULACJI
 # -------------------
-N = 100           # liczba osobników w populacji
-n = 4             # wymiar przestrzeni fenotypowej 
+N = 100           #number of individuals in the population
+n = 4             #dimensions of the phenotype [ability to find food, swimming skills, x coordinate, y coordinate ] 
 
 # Rozrzut początkowych fenotypów wokół optimum.
 # Zbyt duży → większość osobników ma fitness ≈ 0 i wymiera w pierwszym pokoleniu.

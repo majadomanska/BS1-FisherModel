@@ -43,8 +43,6 @@ class ShockEnvironment(EnvironmentDynamics):
         c[-2:] = 0.0
 
 
-
-
         #alpa = fluctuations (applies to location as well)
         self.alpha = self.alpha + c + noise
 
@@ -60,7 +58,7 @@ class ShockEnvironment(EnvironmentDynamics):
             displacement[-2:] = 0.0
             self.alpha += displacement
 
-            #changing the optimum of ability to swim to 100
+            #changing the optimum of ability to swim to 0.5
             self.alpha[1] = 0.5
         else:
              
@@ -69,7 +67,7 @@ class ShockEnvironment(EnvironmentDynamics):
 
 
             
-
+        #location
         self.alpha[-1] = 0.0
         self.alpha[-2] = 0.0
         

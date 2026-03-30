@@ -105,7 +105,7 @@ def main():
     # two variants of parameters 
     variants = {
         "no_noise": 0.0,
-        "with_noise": 0.02,
+        "with_noise": 0.01,
     }
 
     results = {}
@@ -179,7 +179,7 @@ def main():
                             condition,
                             seed,
                             last.generation,
-                            last.mean_fitness,
+                            last.mean_fitness,                      
                             last.distance_from_optimum,
                             last.phenotype_variance,
                             mean_n_parents,
