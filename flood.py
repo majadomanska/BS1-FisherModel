@@ -61,7 +61,7 @@ class ShockEnvironment(EnvironmentDynamics):
             self.alpha += displacement
 
             #changing the optimum of ability to swim to 100
-            self.alpha[1] = 100.0
+            self.alpha[1] = 0.5
         else:
              
             #ability to swim set to mean of most extreme values

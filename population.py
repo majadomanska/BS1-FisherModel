@@ -29,7 +29,7 @@ class Population:
             phenotype = np.random.normal(loc=center, scale=init_scale, size=n_dim)
 
             #clipping the value for 2nd feature (ability to swim)=================================================
-            phenotype[1] = np.clip(phenotype[1], -100, 100)
+            phenotype[1] = np.clip(phenotype[1], -0.5, 0.5)
             self.individuals.append(Individual(phenotype))
 
     def get_individuals(self):

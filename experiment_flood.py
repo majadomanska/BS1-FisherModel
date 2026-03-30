@@ -3,14 +3,14 @@ import numpy as np
 import pandas as pd
 
 import config
-from main import run_simulation
+from main import run_simulation, create_gif_from_frames
 from environment import LinearShiftEnvironment
 from flood import ShockEnvironment
 from population import Population
 from mutation import IsotropicMutation
 from selection import TwoStageSelection
 from reproduction import AsexualReproduction
-
+from visualization import plot_population, plot_frame, plot_stats
 
 def make_population():
     return Population(
@@ -49,7 +49,7 @@ for both scenarios (naive and pre-adapted), stats are returned
 #=================================================================
 #naive - no adaptation under linear shift environment
 #=================================================================
-def run_naive(seed):
+def run_naive(seed, frames_dir=None, verbose=False):
     np.random.seed(seed)
 
     pop = make_population()
@@ -69,8 +69,8 @@ def run_naive(seed):
         reproduction_strategy=make_reproduction(),
         mutation_strategy=make_mutation(),
         max_generations=config.flood_generations,
-        frames_dir=None,
-        verbose=False,
+        frames_dir=frames_dir,
+        verbose=verbose,
     )
     return stats
 
@@ -81,7 +81,7 @@ def run_naive(seed):
 #=================================================================
 
 
-def run_pre_adapted(seed):
+def run_pre_adapted(seed, frames_dir=None, verbose=False):
     np.random.seed(seed)
 
     pop = make_population()
@@ -123,115 +123,54 @@ def run_pre_adapted(seed):
         reproduction_strategy=make_reproduction(),
         mutation_strategy=make_mutation(),
         max_generations=config.flood_generations,
-        frames_dir=None,
-        verbose=False,
+        frames_dir=frames_dir,
+        verbose=verbose,
     )
     return stats
 
 
 def main():
-    results = []
-    
-    # zapis wynikow - do zmiany potem  
-    with open("flood_results_summary.csv", "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow([
-            "condition",
-            "seed",
-            "last_generation",
-            "final_mean_fitness",
-            "final_distance_from_optimum",
-            "final_phenotype_variance",
-            "survived",
-            "extinct_at",
-        ])
+    if config.seed is not None:
+        np.random.seed(config.seed)
 
-        #running for 20 independent replicates
-        for seed in range(20):
-            stats_naive = run_naive(seed)
-            stats_pre = run_pre_adapted(seed)
+    # Naive simulation
+    print("Starting NAIVE simulation...\n")
 
-            for condition, stats in [
-                ("naive", stats_naive),
-                ("pre_adapted", stats_pre),
-            ]:
-                if stats.records:
-                    last = stats.records[-1]
+    frames_dir = "frames_naive"
 
-                    writer.writerow([
-                        condition,
-                        seed,
-                        last.generation,
-                        last.mean_fitness,
-                        last.distance_from_optimum,
-                        last.phenotype_variance,
-                        stats.survived(),
-                        stats.extinct_at,
-                    ])
-
-                    results.append({
-                        "condition": condition,
-                        "seed": seed,
-                        "last_generation": last.generation,
-                        "final_mean_fitness": last.mean_fitness,
-                        "final_distance_from_optimum": last.distance_from_optimum,
-                        "final_phenotype_variance": last.phenotype_variance,
-                        "survived": stats.survived(),
-                        "extinct_at": stats.extinct_at,
-                    })
-
-                    print(
-                        f"{condition:12s} | seed={seed:2d} | "
-                        f"Pokolenie {last.generation:4d} | "
-                        f"fitness: {last.mean_fitness:.3f} | "
-                        f"dist: {last.distance_from_optimum:.3f} | "
-                        f"var: {last.phenotype_variance:.4f} | "
-                        f"survived: {stats.survived()}"
-                    )
-
-                else:
-                    writer.writerow([
-                        condition,
-                        seed,
-                        None,
-                        None,
-                        None,
-                        None,
-                        False,
-                        stats.extinct_at,
-                    ])
-
-                    results.append({
-                        "condition": condition,
-                        "seed": seed,
-                        "last_generation": None,
-                        "final_mean_fitness": None,
-                        "final_distance_from_optimum": None,
-                        "final_phenotype_variance": None,
-                        "survived": False,
-                        "extinct_at": stats.extinct_at,
-                    })
-
-    print("\nZapisano wyniki do flood_results_summary.csv")
-
-
-    df = pd.DataFrame(results)
-
-    summary = df.groupby("condition").agg(
-        mean_fitness=("final_mean_fitness", "mean"),
-        mean_distance=("final_distance_from_optimum", "mean"),
-        mean_variance=("final_phenotype_variance", "mean"),
-        survival_rate=("survived", "mean"),
-        n_survived=("survived", "sum"),
-        n_total=("survived", "count"),
+    stats_naive = run_naive(
+        seed=5,
+        frames_dir=frames_dir,
+        verbose=True,
     )
 
-    print("\n=== SUMMARY ===")
-    print(summary)
+    print(f"\nNAIVE:\n{stats_naive.summary()}")
+    print("\n Creating GIF - NAIVE...")
+    create_gif_from_frames(frames_dir, "naive_simulation.gif")
+    print("GIF saved as naive_simulation.gif")
+    plot_stats(stats_naive, save_path="naive_stats.png", show_plot=False)
+    print("Plot saved as naive_stats.png")
 
-    summary.to_csv("summary_results.csv")
-    print("\nZapisano summary_results.csv")
 
+    # Pre adapted simulation
+    print("\nStarting PRE_ADAPTED simulation...\n")
 
+    frames_dir = "frames_pre_adapted"
+
+    stats_pre = run_pre_adapted(
+        seed=5,
+        frames_dir=frames_dir,
+        verbose=True,
+    )
+
+    print(f"\n PRE_ADAPTED:\n{stats_pre.summary()}")
+    print("\n Creating GIF - PRE_ADAPTED...")
+    create_gif_from_frames(frames_dir, "pre_adapted_simulation.gif")
+    print("GIF saved as pre_adapted_simulation.gif")
+    plot_stats(stats_pre, save_path="pre_adapted_stats.png", show_plot=False)
+    print("Plot saved as pre_adapted_stats.png")
+    
 if __name__ == "__main__":
     main()
+
+
