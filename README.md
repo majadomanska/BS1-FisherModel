@@ -11,3 +11,5 @@ To perform the analysis 20 replicates and 2 different deltas (environmental nois
 
 The .gif from the analysis:
 ![Simulation](simulation.gif)
+
+To read more about Fisher's Geometric Model: [Model](MODEL.md)
